@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Object Detection</title>
+</head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+
+<style type="text/css">
+  body{
+    font-family: Roboto;
+    background-color: #eeb56b;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+  }
+  .form1{
+    background-color: #7a7dd8;
+    width: 500px;
+    height:500px;
+  }
+  table{
+    background-color: #9ae179;
+        width: 1020px;
+    justify-content:center;
+    text-align:center;
+  }
+
+  </style>
+<body>
+	<div class="box0" style="display: flex;flex-direction:column;">
+      <div class="title" style="text-align:center;">
+        <center><h1>WELCOME TO UKM OBJECT DETECTION SYSTEM</h1></center>
+      </div>
+      <div style="display: flex;flex-direction:row;justify-content:center">
+        <div  style="margin:10px">
+          <form class="form1" method="post" action="/result" enctype="multipart/form-data" style="float:left;margin-left: 300px">
+            <img src="../static/pic/image.png" id="show" width="500" height="500"/>
+            <br>
+            <input type="submit" value="detect">
+            <input id="file" name="image" class="filepath" onchange="load_image(this)" type="file" value="select"/><br/>
+        </form>
+        </div>
+        <div style="margin:10px">
+          <form class="form1" action="/result" enctype="multipart/form-data" style="float:right;margin-right: 300px;">
+            <img src="../static/pic/result.png" width="500" height="500"/>
+            <br>
+        </form>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="title" style="text-align:center;">
+        <center><h1>RESULTS</h1></center>
+      </div>
+      <div style="justify-content:center;text-align:center;">
+        <center>
+            <table sytle="justify-content:center;text-align:center;", border="1",cellspacing="0">
+                <tr><td>x1</td> <td>y1</td> <td>x2</td> <td>y2</td> <td>confident</td></tr>
+
+                {% for location in location_result %}
+                <tr>{% for i in location %}<td>{{i}}</td>{% endfor %}</tr>
+                {% endfor %}
+
+            </table>
+        </center>
+      </div>
+  </div>
+  <script>
+    function load_image() {
+      var reads = new FileReader()
+      f = document.getElementById('file').files[0]
+
+      reads.readAsDataURL(f)
+
+      reads.onload = function(e) {
+        document.getElementById('show').src = this.result
+      }
+    }
+</script>
+</body>
+</html>
